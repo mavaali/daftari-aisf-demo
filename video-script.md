@@ -25,27 +25,27 @@ Daftari replaces all three with a versioned, typed, lifecycle-aware markdown vau
 ## Part 2 — Shot-by-shot Script
 
 ### 0:00–0:30 — Cold open
-- **[VISUAL]** Black screen. Single-line type-on: `the-daftar/`. Tree expands: `desks/karachi/`, `assets/nightingale.md`, `operations/blue-minaret.md`, `tensions/`, `drafts/`. Title card: **daftari**.
+- **[VISUAL]** Black screen. Single-line type-on: `the-daftar/`. Tree expands: `desks/karachi/`, `assets/bluebird.md`, `operations/blue-minaret.md`, `tensions/`, `drafts/`. Title card: **daftari**.
 - **[VO]** "In Urdu, a daftari is the keeper of the ledger. Every intelligence agency has one. Most AI agents don't. This is daftari — an MCP server that gives your agent a persistent markdown vault. Not a memory. An archive."
 - **[TOOL CALL]** none.
 - **[PAYOFF]** Etymology hook lands. Frame set: this is infrastructure, not a chatbot.
 
 ### 0:30–1:00 — The setup
-- **[VISUAL]** Microsoft Scout. User prompt visible: *"What do we know about Nightingale's exposure risk after the Blue Minaret leak?"* Split-screen: chat on the left, terminal showing MCP tool calls on the right.
+- **[VISUAL]** Microsoft Scout. User prompt visible: *"What is the case for and against pausing Op NIGHTJAR?"* Split-screen: chat on the left, terminal showing MCP tool calls on the right.
 - **[VO]** "The Daftar holds about a hundred files — desks, assets, ongoing operations. The question is multi-hop: one named asset, one operation, one risk assessment. Watch how the agent thinks."
 - **[TOOL CALL]** `vault_index({ collection: "assets" })` — agent orients itself first.
 - **[PAYOFF]** Agent doesn't grep blindly. It reads the table of contents.
 
 ### 1:00–1:30 — Hybrid search wins
-- **[VISUAL]** Terminal shows two failed approaches greyed out: a pure-lexical grep that missed the synonym "songbird," and a pure-vector search that confidently returned the wrong asset. Then `vault_search` fires and returns three ranked files with snippets.
+- **[VISUAL]** Terminal shows two failed approaches greyed out: a pure-lexical grep that missed the synonym "walk-in" or "stand-down" as synonyms, and a pure-vector search that confidently returned the wrong asset. Then `vault_search` fires and returns three ranked files with snippets.
 - **[VO]** "BM25 alone misses the codename. Vector alone hallucinates a neighbor. Daftari does both — lexical and semantic in one rank — and surfaces the three files that actually matter."
-- **[TOOL CALL]** `vault_search({ query: "Nightingale exposure Blue Minaret", weights: { bm25: 0.5, vector: 0.5 } })`
+- **[TOOL CALL]** `vault_search({ query: "NIGHTJAR pause Berlin THORNHILL", weights: { bm25: 0.5, vector: 0.5 } })`
 - **[PAYOFF]** **WOW BEAT #1.** Hybrid retrieval beats both baselines on the same query, on camera.
 
 ### 1:30–2:00 — Reading with provenance
-- **[VISUAL]** Markdown file opens: `assets/nightingale.md`. Redacted-text aesthetic — black bars over names. Frontmatter visible: `status: canonical`, `confidence: high`, `updated_by: agent:karachi-desk`, `sources: [...]`. Then a sidebar: provenance log scrolls — three different agents have written to this file over six weeks.
+- **[VISUAL]** Markdown file opens: `assets/bluebird.md`. Redacted-text aesthetic — black bars over names. Frontmatter visible: `status: canonical`, `confidence: high`, `updated_by: agent:karachi-desk`, `sources: [...]`. Then a sidebar: provenance log scrolls — three different agents have written to this file over six weeks.
 - **[VO]** "Every file is typed. Status. Confidence. TTL. And every write is signed. Three different agents touched this dossier — a desk officer, a research bot, an editor — and daftari kept the receipts."
-- **[TOOL CALL]** `vault_read({ path: "assets/nightingale.md" })` then `vault_provenance({ filePath: "assets/nightingale.md" })`
+- **[TOOL CALL]** `vault_read({ path: "assets/bluebird.md" })` then `vault_provenance({ filePath: "assets/bluebird.md" })`
 - **[PAYOFF]** **WOW BEAT #2.** Multi-agent collaboration trail. No other memory tool shows you *who* wrote *what, when, and why*.
 
 ### 2:00–2:30 — The unsaid pattern
@@ -55,15 +55,15 @@ Daftari replaces all three with a versioned, typed, lifecycle-aware markdown vau
 - **[PAYOFF]** **WOW BEAT #3.** Emergent structure — reasoning over the archive, not just lookup inside it.
 
 ### 2:30–3:00 — Refusing to paper over
-- **[VISUAL]** Two files side by side: one says Nightingale was last seen in Karachi on the 14th, the other places her in Lahore on the 14th. Agent fires `vault_tension_log`. A new entry appears in `tensions/` with both claims, both sources, status: `unresolved`.
+- **[VISUAL]** Two files side by side: one says BLUEBIRD called stand-down citing surveillance by Salm; the other field report shows Salm was tailing Hoyt. Agent fires `vault_tension_log`. A new entry appears in `tensions/` with both claims, both sources, status: `unresolved`.
 - **[VO]** "Here's the part most agents get wrong. Faced with a contradiction, they pick one and move on. Daftari logs the tension — both claims, both sources, unresolved — and refuses to fabricate a reconciliation."
 - **[TOOL CALL]** `vault_tension_log({ kind: "factual", sourceA: "...", claimA: "...", sourceB: "...", claimB: "..." })`
 - **[PAYOFF]** **WOW BEAT #4.** Calibrated humility. The agent surfaces conflict instead of laundering it. Reliability & Safety: 20%.
 
 ### 3:00–3:30 — Compilation over retrieval
-- **[VISUAL]** Agent drafts a new file: `assessments/nightingale-exposure-2026-q2.md` with `status: draft`. It writes, then appends a "Questions Raised" section. Then — after a beat — `vault_promote` fires. Status flips: `draft → canonical`. The frontmatter timestamp updates live.
+- **[VISUAL]** Agent drafts a new file: `_drafts/berlin/bluebird-extraction-options.md` with `status: draft`. It writes, then appends a "Questions Raised" section. Then — after a beat — `vault_promote` fires. Status flips: `draft → canonical`. The frontmatter timestamp updates live.
 - **[VO]** "The agent doesn't just answer the question. It compiles the answer into the archive — as a draft first, then, once the reasoning is sound, promotes it to canonical. Tomorrow's agent inherits today's conclusion."
-- **[TOOL CALL]** `vault_write(...)` → `vault_append(...)` → `vault_promote({ path: "assessments/nightingale-exposure-2026-q2.md" })`
+- **[TOOL CALL]** `vault_write(...)` → `vault_append(...)` → `vault_promote({ path: "_drafts/berlin/bluebird-extraction-options.md" })`
 - **[PAYOFF]** **WOW BEAT #5.** "Compilation over retrieval" made visible. This is the tagline, demonstrated.
 
 ### 3:30–4:00 — The self-healing loop
@@ -73,7 +73,7 @@ Daftari replaces all three with a versioned, typed, lifecycle-aware markdown vau
 - **[PAYOFF]** Self-healing. Multi-step reasoning over its own work. Reliability beat.
 
 ### 4:00–4:30 — The answer, finally
-- **[VISUAL]** Back to Microsoft Scout. Agent's final answer renders — three paragraphs, every claim footnoted to a vault path with a confidence level. One footnote reads: *"This claim is contested — see tensions/nightingale-location-14th.md."*
+- **[VISUAL]** Back to Microsoft Scout. Agent's final answer renders — three paragraphs, every claim footnoted to a vault path with a confidence level. One footnote reads: *"This claim is contested — see tensions/tension-002.md."*
 - **[VO]** "The answer the analyst asked for, with footnotes the analyst can audit. Every claim points back to a file. Every file knows who wrote it. Every contradiction is on the record."
 - **[TOOL CALL]** none — final synthesis.
 - **[PAYOFF]** The viewer sees the whole loop close: question in, archive consulted, contradictions surfaced, answer compiled, archive richer than before.
