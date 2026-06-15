@@ -1,0 +1,52 @@
+%%{init: {'theme':'neutral', 'flowchart':{'curve':'basis'}}}%%
+flowchart LR
+  subgraph AGENTS["AGENT SIDE - any MCP client"]
+    S[Microsoft Scout]
+    A2[research-bot]
+  end
+
+  subgraph SERVER["daftari MCP server (stdio)"]
+    direction TB
+    R[READ<br/>vault_read · vault_index · vault_status]
+    SE[SEARCH<br/>vault_search · vault_search_related · vault_themes]
+    W[WRITE<br/>vault_write · vault_append]
+    C[CURATE<br/>vault_lint · vault_tension_log · vault_provenance]
+    RA[RATIFY · trust boundary<br/>vault_promote · vault_deprecate]
+  end
+
+  subgraph DISK["DISK"]
+    V[(markdown vault<br/>git-backed)]
+    IDX[(SQLite index<br/>BM25 + vectors)]
+    P[(provenance log)]
+    T[(tensions log)]
+  end
+
+  subgraph HUMAN["HUMAN-GATED SIDE"]
+    H[reviewer]
+  end
+
+  S -.MCP stdio.-> SERVER
+  A2 -.MCP stdio.-> SERVER
+
+  R --> V
+  SE --> IDX
+  SE --> V
+  W --> V
+  W --> IDX
+  C --> P
+  C --> T
+  RA --> V
+  RA --> P
+
+  RA -. "staged actions<br/>await ratify" .-> H
+  H -. approve / reject .-> RA
+
+  classDef agent fill:#fef3c7,stroke:#92400e,stroke-width:2px
+  classDef server fill:#dbeafe,stroke:#1e40af,stroke-width:2px
+  classDef disk fill:#dcfce7,stroke:#166534,stroke-width:2px
+  classDef human fill:#fce7f3,stroke:#9f1239,stroke-width:2px,stroke-dasharray: 5 5
+
+  class S,A2 agent
+  class R,SE,W,C,RA server
+  class V,IDX,P,T disk
+  class H human

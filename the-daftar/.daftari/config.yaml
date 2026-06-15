@@ -1,0 +1,82 @@
+vault:
+  name: "The Daftar"
+  description: "Bureau for Atypical Inquiry — internal knowledge vault"
+  version: "1.0.0"
+
+roles:
+  field-officer:
+    description: "Field staff. Drafts only, scoped to their own desk."
+    can_read:
+      - field-reports/${desk}/**
+      - dossiers/**
+      - tradecraft/**
+    can_write:
+      - field-reports/${desk}/**
+      - _drafts/${desk}/**
+    can_promote: false
+
+  desk-analyst:
+    description: "Desk analyst. Reads everything; writes and promotes within own desk."
+    can_read:
+      - "**"
+    can_write:
+      - field-reports/${desk}/**
+      - dossiers/${desk}/**
+      - ops-active/${desk}/**
+      - briefings/${desk}/**
+      - _drafts/${desk}/**
+    can_promote:
+      - dossiers/${desk}/**
+      - field-reports/${desk}/**
+      - ops-active/${desk}/**
+
+  archivist:
+    description: "Cross-desk custodial role. Reads and writes everything but cannot promote."
+    can_read: ["**"]
+    can_write: ["**"]
+    can_promote: false
+
+  director:
+    description: "Admin. Full read/write/promote, including deprecate, supersede, and tension resolution."
+    can_read: ["**"]
+    can_write: ["**"]
+    can_promote: ["**"]
+    can_deprecate: true
+    can_resolve_tensions: true
+
+  agent-curator:
+    description: "Service-principal role for autonomous curation agents. May draft and append, never promote, never deprecate."
+    can_read: ["**"]
+    can_write:
+      - _drafts/**
+      - field-reports/**
+      - comp-intel/**
+    can_promote: false
+    can_deprecate: false
+
+desks:
+  - berlin
+  - karachi
+  - tokyo
+  - buenos-aires
+  - cairo
+
+bindings:
+  "human:vance":          { role: director }
+  "human:okafor":         { role: director }
+  "human:mahmoud":        { role: director }
+  "human:hoyt":           { role: desk-analyst, desk: berlin }
+  "human:qadeer":         { role: desk-analyst, desk: karachi }
+  "human:aramaki":        { role: desk-analyst, desk: tokyo }
+  "human:mendez":         { role: desk-analyst, desk: buenos-aires }
+  "human:halabi":         { role: desk-analyst, desk: cairo }
+  "human:ruiz":           { role: desk-analyst, desk: berlin }
+  "human:idowu":          { role: desk-analyst, desk: karachi }
+  "human:sato":           { role: field-officer, desk: tokyo }
+  "human:vega":           { role: field-officer, desk: buenos-aires }
+  "human:reza":           { role: desk-analyst, desk: cairo }
+  "human:kowalski":       { role: archivist }
+  "agent:cortex-curator":     { role: agent-curator }
+  "agent:sigint-summarizer":  { role: agent-curator }
+  "agent:asset-graph":        { role: agent-curator }
+  "agent:osint-trawler":      { role: agent-curator }
