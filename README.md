@@ -24,9 +24,9 @@ Full docs and source: [mavaali/daftari](https://github.com/mavaali/daftari)
 
 ## Demo
 
-![demo](https://youtu.be/w5MzcIHnHFo)
+[![Watch the demo](https://img.youtube.com/vi/w5MzcIHnHFo/maxresdefault.jpg)](https://youtu.be/w5MzcIHnHFo)
 
-*Note for Mihir: capture this from the recorded video walkthrough.*
+[Watch on YouTube →](https://youtu.be/w5MzcIHnHFo)
 
 ---
 
